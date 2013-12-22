@@ -743,21 +743,22 @@ class HTMLReportCreator(ReportCreator):
 		f = open(path + "/index.html", 'w')
 		format = '%Y-%m-%d %H:%M:%S'
 		self.printHeader(f)
-		self.printNav(f, 'index')
+		self.printNav(f, 'index', data.projectname)
 		
-		f.write('<h1>GitStats - %s</h1>' % data.projectname)
+		#f.write('<h1>GitStats - %s</h1>' % data.projectname)
 
-		f.write('<dl>')
-		f.write('<dt>Project name</dt><dd>%s</dd>' % (data.projectname))
-		f.write('<dt>Generated</dt><dd>%s (in %d seconds)</dd>' % (datetime.datetime.now().strftime(format), time.time() - data.getStampCreated()))
-		f.write('<dt>Generator</dt><dd><a href="http://gitstats.sourceforge.net/">GitStats</a> (version %s), %s, %s</dd>' % (getversion(), getgitversion(), getgnuplotversion()))
-		f.write('<dt>Report Period</dt><dd>%s to %s</dd>' % (data.getFirstCommitDate().strftime(format), data.getLastCommitDate().strftime(format)))
-		f.write('<dt>Age</dt><dd>%d days, %d active days (%3.2f%%)</dd>' % (data.getCommitDeltaDays(), len(data.getActiveDays()), (100.0 * len(data.getActiveDays()) / data.getCommitDeltaDays())))
-		f.write('<dt>Total Files</dt><dd>%s</dd>' % data.getTotalFiles())
-		f.write('<dt>Total Lines of Code</dt><dd>%s (%d added, %d removed)</dd>' % (data.getTotalLOC(), data.total_lines_added, data.total_lines_removed))
-		f.write('<dt>Total Commits</dt><dd>%s (average %.1f commits per active day, %.1f per all days)</dd>' % (data.getTotalCommits(), float(data.getTotalCommits()) / len(data.getActiveDays()), float(data.getTotalCommits()) / data.getCommitDeltaDays()))
-		f.write('<dt>Authors</dt><dd>%s (average %.1f commits per author)</dd>' % (data.getTotalAuthors(), (1.0 * data.getTotalCommits()) / data.getTotalAuthors()))
-		f.write('</dl>')
+		f.write('<div class="statistics">')
+		f.write('<ul class="thumbnails">')
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Project name</div><div class="value">%s</div></div></li>' % (data.projectname))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Generated</div><div class="value">%s (in %d seconds)</div></div></li>' % (datetime.datetime.now().strftime(format), time.time() - data.getStampCreated()))
+		#f.write('<li class="span4"><div class="thumbnail"><div class="title">Generator</div><div class="value"><a href="http://gitstats.sourceforge.net/">GitStats</a> (version %s), %s, %s</div></div></li>' % (getversion(), getgitversion(), getgnuplotversion()))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Report Period</div><div class="value">%s to %s</div></div></li>' % (data.getFirstCommitDate().strftime(format), data.getLastCommitDate().strftime(format)))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Age</div><div class="value">%d days, %d active days (%3.2f%%)</div></div></li>' % (data.getCommitDeltaDays(), len(data.getActiveDays()), (100.0 * len(data.getActiveDays()) / data.getCommitDeltaDays())))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Files</div><div class="value">%s</div></div></li>' % data.getTotalFiles())
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Lines of Code</div><div class="value">%s (%d added, %d removed)</div></div></li>' % (data.getTotalLOC(), data.total_lines_added, data.total_lines_removed))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Commits</div><div class="value">%s (average %.1f commits per active day, %.1f per all days)</div></div></li>' % (data.getTotalCommits(), float(data.getTotalCommits()) / len(data.getActiveDays()), float(data.getTotalCommits()) / data.getCommitDeltaDays()))
+		f.write('<li class="span4"><div class="thumbnail"><div class="title">Authors</div><div class="value">%s (average %.1f commits per author)</div></div></li>' % (data.getTotalAuthors(), (1.0 * data.getTotalCommits()) / data.getTotalAuthors()))
+		f.write('</ul></div>')
 
 		self.printFooter(f)
 		f.close()
@@ -766,7 +767,7 @@ class HTMLReportCreator(ReportCreator):
 		# Activity
 		f = open(path + '/activity.html', 'w')
 		self.printHeader(f)
-		self.printNav(f, 'activity')
+		self.printNav(f, 'activity', data.projectname)
 		f.write('<h1>Activity</h1>')
 
 		#f.write('<h2>Last 30 days</h2>')
@@ -947,7 +948,7 @@ class HTMLReportCreator(ReportCreator):
 		f = open(path + '/authors.html', 'w')
 		self.printHeader(f)
 
-		self.printNav(f, 'authors')
+		self.printNav(f, 'authors', data.projectname)
 		f.write('<h1>Authors</h1>')
 
 		# Authors :: List of authors
@@ -1059,7 +1060,7 @@ class HTMLReportCreator(ReportCreator):
 		# Files
 		f = open(path + '/files.html', 'w')
 		self.printHeader(f)
-		self.printNav(f, 'files')
+		self.printNav(f, 'files', data.projectname)
 		f.write('<h1>Files</h1>')
 
 		f.write('<dl>\n')
@@ -1110,7 +1111,7 @@ class HTMLReportCreator(ReportCreator):
 		# Lines
 		f = open(path + '/lines.html', 'w')
 		self.printHeader(f)
-		self.printNav(f, 'lines')
+		self.printNav(f, 'lines', data.projectname)
 		f.write('<h1>Lines</h1>')
 
 		f.write('<dl>\n')
@@ -1141,7 +1142,7 @@ class HTMLReportCreator(ReportCreator):
 			f.write('<dt>Average commits per tag</dt><dd>%.2f</dd>' % (1.0 * data.getTotalCommits() / len(data.tags)))
 		f.write('</dl>')
 
-		f.write('<table class="tags">')
+		f.write('<table class="table table-condensed table-bordered table-hover tags">')
 		f.write('<tr><th>Name</th><th>Date</th><th>Commits</th><th>Authors</th></tr>')
 		# sort the tags by date desc
 		tags_sorted_by_date_desc = map(lambda el : el[1], reversed(sorted(map(lambda el : (el[1]['date'], el[0]), data.tags.items()))))
@@ -1369,17 +1370,19 @@ plot """
 		table.table th { background-color: #ddf !important; }
 		table.table { font-size: 13px; }
 		.vtable { float: right; width: auto; clear: both; }
-		.container { width: auto; margin: 0 20px; max-width: 1400px; }
 		img { background-color: #fafafa; padding: 8px; border: 1px solid #999; }
 		table.table img { background: none; padding: 0; border: none; }
 		h2 { font-size: 22px; background-color: #564; padding: 0 8px; border: 1px solid #999; color: #fafafa; margin-top: 30px; clear: both; } 
+		.thumbnail {min-height:80px;padding:10px;}
+		.thumbnail .title {font-size:20px;color:darkgray;padding:10px 0px}
+		.thumbnail .value {font-size:16px;color:darkolivegreen;text-indent:1em;}
 	</style>
 	<script type="text/javascript" src="sortable.js"></script>
 </head>
 <body>
 """ % (self.title, conf['style'], getversion()))
 
-	def printNav(self, f, tab = ''):
+	def printNav(self, f, tab = '', title = ''):
 		f.write("""
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
@@ -1389,10 +1392,10 @@ plot """
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="index.html">GitStats - jquery</a>
+			<a class="brand" href="index.html">GitStats - %s</a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-		""")
+		""" % (self.title))
 		if tab == 'index':
 			f.write('<li class="active"><a href="index.html">General</a></li>')
 		else:
