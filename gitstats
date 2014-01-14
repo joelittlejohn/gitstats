@@ -1387,7 +1387,7 @@ plot """
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="../../index.html">Code</a>
+			<a class="brand" href="../../">Code</a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 		""")
