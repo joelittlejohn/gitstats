@@ -39,7 +39,7 @@ if 'GNUPLOT' in os.environ:
 conf = {
 	'max_domains': 10,
 	'max_ext_length': 10,
-	'style': 'bootstrap.css',
+	'style': 'http://netdna.bootstrapcdn.com/bootstrap/2.2.2/css/bootstrap.min.css',
 	'max_authors': 20,
 	'authors_top': 5,
 	'commit_begin': '',
@@ -731,7 +731,7 @@ class HTMLReportCreator(ReportCreator):
 		binarypath = os.path.dirname(os.path.abspath(__file__))
 		secondarypath = os.path.join(binarypath, '..', 'share', 'gitstats')
 		basedirs = [binarypath, secondarypath, '/usr/share/gitstats']
-		for file in ('bootstrap.css', 'sortable.js', 'arrow-up.gif', 'arrow-down.gif', 'arrow-none.gif'):
+		for file in ('sortable.js', 'arrow-up.gif', 'arrow-down.gif', 'arrow-none.gif'):
 			for base in basedirs:
 				src = base + '/' + file
 				if os.path.exists(src):
@@ -1377,6 +1377,8 @@ plot """
 		.thumbnail .title {font-size:20px;color:darkgray;padding:10px 0px}
 		.thumbnail .value {font-size:16px;color:darkolivegreen;text-indent:1em;}
 	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/2.2.2/js/bootstrap.js"></script>
 	<script type="text/javascript" src="sortable.js"></script>
 </head>
 <body>
