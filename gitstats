@@ -745,15 +745,11 @@ class HTMLReportCreator(ReportCreator):
 		self.printHeader(f)
 		self.printNav(f, 'index', data.projectname)
 
-		#f.write('<h1>GitStats - %s</h1>' % data.projectname)
-
 		f.write('<div class="statistics">')
 		f.write('<ul class="thumbnails">')
 		f.write('<li class="span4"><div class="thumbnail"><div class="title">Project name</div><div class="value">%s</div></div></li>' % (data.projectname))
 		f.write('<li class="span4"><div class="thumbnail"><div class="title">Generated</div><div class="value">%s (in %d seconds)</div></div></li>' % (datetime.datetime.now().strftime(format), time.time() - data.getStampCreated()))
-		#f.write('<li class="span4"><div class="thumbnail"><div class="title">Generator</div><div class="value"><a href="http://gitstats.sourceforge.net/">GitStats</a> (version %s), %s, %s</div></div></li>' % (getversion(), getgitversion(), getgnuplotversion()))
-		f.write('<li class="span4"><div class="thumbnail"><div class="title">Report Period</div><div class="value">%s to %s</div></div></li>' % (data.getFirstCommitDate().strftime(format), data.getLastCommitDate().strftime(format)))
-		f.write('<li class="span4"><div class="thumbnail"><div class="title">Age</div><div class="value">%d days, %d active days (%3.2f%%)</div></div></li>' % (data.getCommitDeltaDays(), len(data.getActiveDays()), (100.0 * len(data.getActiveDays()) / data.getCommitDeltaDays())))
+                f.write('<li class="span4"><div class="thumbnail"><div class="title">Age</div><div class="value">%d days, %d active days (%3.2f%%)</div></div></li>' % (data.getCommitDeltaDays(), len(data.getActiveDays()), (100.0 * len(data.getActiveDays()) / data.getCommitDeltaDays())))
 		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Files</div><div class="value">%s</div></div></li>' % data.getTotalFiles())
 		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Lines of Code</div><div class="value">%s (%d added, %d removed)</div></div></li>' % (data.getTotalLOC(), data.total_lines_added, data.total_lines_removed))
 		f.write('<li class="span4"><div class="thumbnail"><div class="title">Total Commits</div><div class="value">%s (average %.1f commits per active day, %.1f per all days)</div></div></li>' % (data.getTotalCommits(), float(data.getTotalCommits()) / len(data.getActiveDays()), float(data.getTotalCommits()) / data.getCommitDeltaDays()))
@@ -1360,19 +1356,19 @@ plot """
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>GitStats - %s</title>
+	<title>Code (%s)</title>
 	<link rel="stylesheet" href="%s" type="text/css" />
-	<meta name="generator" content="GitStats %s" />
+	<meta name="generator" content="Code %s" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
-		body { padding-top: 60px; background-color: #eeffee; font-size: 14px; }
+		body { padding-top: 60px; font-size: 14px; }
 		table { background-color: #fafafa; }
 		table.table th { background-color: #ddf !important; }
 		table.table { font-size: 13px; }
 		.vtable { float: right; width: auto; clear: both; }
 		img { background-color: #fafafa; padding: 8px; border: 1px solid #999; }
 		table.table img { background: none; padding: 0; border: none; }
-		h2 { font-size: 22px; background-color: #564; padding: 0 8px; border: 1px solid #999; color: #fafafa; margin-top: 30px; clear: both; }
+		h2 { font-size: 22px; padding: 0 8px; margin-top: 30px; clear: both; }
 		.thumbnail {min-height:80px;padding:10px;}
 		.thumbnail .title {font-size:20px;color:darkgray;padding:10px 0px}
 		.thumbnail .value {font-size:16px;color:darkolivegreen;text-indent:1em;}
@@ -1394,14 +1390,13 @@ plot """
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="index.html">GitStats - %s</a>
+			<a class="brand" href="../../index.html">Code</a>
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-		""" % (self.title))
-		if tab == 'index':
-			f.write('<li class="active"><a href="index.html">General</a></li>')
-		else:
-			f.write('<li><a href="index.html">General</a></li>')
+		""")
+
+		f.write('\n<!-- @@services@@ -->\n')
+
 		if tab == 'activity':
 			f.write('<li class="active"><a href="activity.html">Activity</a></li>')
 		else:
