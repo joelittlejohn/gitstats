@@ -48,6 +48,7 @@ conf = {
 	'project_name': '',
 	'merge_authors': {},
 	'processes': 8,
+        'resource_path':'/usr/share/gitstats'
 }
 
 def getpipeoutput(cmds, quiet = False):
@@ -727,18 +728,14 @@ class HTMLReportCreator(ReportCreator):
 		ReportCreator.create(self, data, path)
 		self.title = data.projectname
 
-		# copy static files. Looks in the binary directory, ../share/gitstats and /usr/share/gitstats
-		binarypath = os.path.dirname(os.path.abspath(__file__))
-		secondarypath = os.path.join(binarypath, '..', 'share', 'gitstats')
-		basedirs = [binarypath, secondarypath, '/usr/share/gitstats']
+		# copy static files
 		for file in ('sortable.js', 'arrow-up.gif', 'arrow-down.gif', 'arrow-none.gif'):
-			for base in basedirs:
-				src = base + '/' + file
-				if os.path.exists(src):
-					shutil.copyfile(src, path + '/' + file)
-					break
+			src = conf['resource_path'] + '/' + file
+			print "copying %s..." % src
+			if os.path.exists(src):
+				shutil.copyfile(src, path + '/' + file)
 			else:
-				print 'Warning: "%s" not found, so not copied (searched: %s)' % (file, basedirs)
+				print 'Warning: "%s" not found, so not copied (searched: %s)' % (file, conf['resource_path'])
 
 		f = open(path + "/index.html", 'w')
 		format = '%Y-%m-%d %H:%M:%S'
