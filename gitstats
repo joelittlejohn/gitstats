@@ -1369,6 +1369,7 @@ plot """
 		.thumbnail {min-height:80px;padding:10px;}
 		.thumbnail .title {font-size:20px;color:darkgray;padding:10px 0px}
 		.thumbnail .value {font-size:16px;color:darkolivegreen;text-indent:1em;}
+                .dropdown-menu {max-height: 600px; overflow-y: auto;}
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/2.2.2/js/bootstrap.js"></script>
